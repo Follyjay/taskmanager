@@ -1,0 +1,37 @@
+# Ignore target directory (compiled files)
+target/
+
+# Ignore IDE-specific files
+.idea/
+.vscode/
+*.iml
+
+# Ignore logs
+logs/
+*.log
+
+# Ignore OS-specific files
+.DS_Store
+Thumbs.db
+
+# Ignore dependency directory (if using Gradle)
+.gradle/
+build/
+
+# Ignore Maven files
+.mvn/
+!mvn/wrapper/maven-wrapper.jar
+
+# Ignore temporary and sensitive files
+*.swp
+*.swo
+*.bak
+*.tmp
+*.~*
+
+# Ignore test reports
+test-output/
+
+# Ignore environment files
+.env
+*.env
