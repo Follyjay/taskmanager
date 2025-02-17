@@ -1,0 +1,100 @@
+.task-container{
+  font-family: Arial, sans-serif;
+  max-width: 650px;
+  margin: 20px auto;
+  padding: 0px 0px 0.5% 0px;
+  border-radius: 10px;
+  background-color: #f9f9f9;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+  text-align: center;
+  justify-items: center;
+  align-items: center;
+}
+
+.title{
+  width: 100%;
+  padding: 10px;
+  background-color: #000f00;
+  color: white;
+  border-radius: 10px 10px 0px 0px;
+}
+
+.task-form{
+  width: 50%;
+  display: block;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.task-input{
+  padding: 8px;
+  margin: 10px 0;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  display: block;
+}
+
+.text{
+  width: 95%;
+}
+
+.add-task{
+  width: 100%;
+  padding: 10px;
+  background-color: cornflowerblue;
+}
+
+.task-list{
+  width: 85%;
+}
+
+.task-table{
+  width: 100%;
+  border-collapse:separate;
+  font-size: 13px;
+}
+
+.task-table th{
+  background-color: #525352;
+  color: white;
+  text-align: left;
+  padding: 4px;
+}
+
+.task-table th:nth-child(5){
+  text-align: center;
+}
+
+.task-table tbody tr{
+  text-align: left;
+  border: #000 1px solid;
+}
+.task-table tbody tr:nth-child(even){
+  background-color: #b8a7a7;
+}
+
+.task-table tbody tr td{
+  padding: 4px;
+}
+
+.task-action{
+  margin-left: 10px;
+}
+
+.delete, .edit, .complete{
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.delete{
+  color: red;
+}
+
+.edit{
+  color: blue;
+}
+
+.complete{
+  color: green;
+}
