@@ -1,41 +1,21 @@
-// import logo from './logo.svg';
-// import './App.css';
-
-// function App() {
-//   return (
-//     <div className="App">
-//       <header className="App-header">
-//         <img src={logo} className="App-logo" alt="logo" />
-//         <p>
-//           Edit <code>src/App.js</code> and save to reload.
-//         </p>
-//         <a
-//           className="App-link"
-//           href="https://reactjs.org"
-//           target="_blank"
-//           rel="noopener noreferrer"
-//         >
-//           Learn React
-//         </a>
-//       </header>
-//     </div>
-//   );
-// }
-
-// export default App;
 import React, { useState, useEffect } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEdit, faSquareCheck, faTrash} from "@fortawesome/free-solid-svg-icons";
 import axios from "axios";
+import Modal from './utility';
 import './App.css';
 
 const URL = "http://localhost:8080/tasks";
 
-function App() {
+const App = () => {
 
   const [tasks, setTasks] = useState([]);
   const [newTitle, setNewTitle] = useState("");
   const [newDescription, setNewDescription] = useState("");
+  const [editingTask, setEditingTask] = useState(null);
+  const [updatedTitle, setUpdatedTitle] = useState("");
+  const [updatedDescription, setUpdatedDescription] = useState("");
+  const [showModal, setShowModal] = useState(false);
 
   useEffect(() => {
     fetchTasks();
@@ -53,17 +33,13 @@ function App() {
   const addTask = async () => {
     if (!newTitle) return alert("Please enter a title");
     if (!newDescription) return alert("Please enter a description");
-
     try{
-      if (await axios.post(URL, {title: newTitle, description: newDescription},
-        { headers: { "Content-Type": "application/json" } }))
-
+      await axios.post(URL, {title: newTitle, description: newDescription},
+        { headers: { "Content-Type": "application/json" } });
         fetchTasks();
         setNewTitle("");
         setNewDescription("");
-
-      return alert("Task added successfully");
-
+        alert("Task added successfully");
     } catch (error) {
       console.error("Error adding task:", error.message);
     }
@@ -71,25 +47,30 @@ function App() {
 
   const deleteTask = async (id) => {
     try {
-      if (await axios.delete(`${URL}/${id}`))
+      await axios.delete(`${URL}/${id}`);
         setTasks(tasks.filter((task) => task.id !== id));
-      
-      return alert("Task deleted successfully");
+        alert("Task deleted successfully");
     } catch (error) {
       console.error("Error deleting task:", error.message);
     }
   };
 
+  const editTask = (task) => {
+    setEditingTask(task);
+    setUpdatedTitle(task.title);
+    setUpdatedDescription(task.description);
+    setShowModal(true);
+  };
+
   const updateTask = async (id) => {
     try{
-      if (await axios.put(`${URL}/${id}`, {title: newTitle, description: newDescription},
-        { headers: { "Content-Type": "application/json" } }))
-          return alert("Task updated successfully");
-      
-        setNewTitle("");
-        setNewDescription("");
+      await axios.put(`${URL}/${id}`, {title: updatedTitle, description: updatedDescription},
+        { headers: { "Content-Type": "application/json" } });
         fetchTasks();
-
+        setEditingTask(null);
+        setUpdatedTitle("");
+        setUpdatedDescription("");
+        alert("Task updated successfully");
     } catch (error) {
       console.error("Error updating task:", error.message);
     }
@@ -97,11 +78,9 @@ function App() {
 
   const completeTask = async (id) => {
     try{
-      if (await axios.put(`${URL}/complete/${id}`))
+      await axios.put(`${URL}/complete/${id}`);
         fetchTasks();
-
-      return alert("Task completed successfully");
-  
+        alert("Task completed successfully");
     } catch (error) {
       console.error("Error completing task:", error.message);
     }
@@ -151,7 +130,7 @@ function App() {
                     <span className="task-action delete" title="delete" onClick={() => deleteTask(task.id)}>
                       <FontAwesomeIcon icon={faTrash}/>
                     </span>
-                    <span className="task-action edit" title="edit" onClick={() => {updateTask(task.id)}}>
+                    <span className="task-action edit" id="btnEdit" title="edit" onClick={() => {editTask(task)}}>
                       <FontAwesomeIcon icon={faEdit}/>
                     </span>
                     <button className="task-action complete" title="complete" onClick={() => completeTask(task.id)}>
@@ -168,10 +147,30 @@ function App() {
           </tbody>
         </table>
       </div>
-      
+
+      {editingTask && (
+        <Modal show={showModal} onClose={() => setShowModal(false)}>
+          <div className="task-form-edit">
+            <input
+              className="task-input text"
+              type="text"
+              placeholder="Update title"
+              value={updatedTitle}
+              onChange={(e) => setUpdatedTitle(e.target.value)}
+            />
+            <textarea 
+              className="task-input text"
+              rows="4" cols="35"
+              placeholder="Update description"
+              value={updatedDescription}
+              onChange={(e) => setUpdatedDescription(e.target.value)}>
+            </textarea>
+            <button className="task-input update-task" onClick={() => updateTask(editingTask.id)}>Update Task</button>
+          </div>
+        </Modal>
+      )}
     </div>
 
   );
-
 };
 export default App;

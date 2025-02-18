@@ -39,7 +39,7 @@
   width: 95%;
 }
 
-.add-task{
+.add-task, .update-task{
   width: 100%;
   padding: 10px;
   background-color: cornflowerblue;
@@ -51,15 +51,17 @@
 
 .task-table{
   width: 100%;
-  border-collapse:separate;
+  border-collapse:collapse;
   font-size: 13px;
+  border: #000 1px solid;
+  border-radius: 0px 0px 10px 10px;
 }
 
 .task-table th{
   background-color: #525352;
   color: white;
   text-align: left;
-  padding: 4px;
+  padding: 7px;
 }
 
 .task-table th:nth-child(5){
@@ -68,7 +70,6 @@
 
 .task-table tbody tr{
   text-align: left;
-  border: #000 1px solid;
 }
 .task-table tbody tr:nth-child(even){
   background-color: #b8a7a7;
@@ -97,4 +98,9 @@
 
 .complete{
   color: green;
+}
+
+.task-form-edit text{
+  top: 50px;
+  margin-top: 50px;
 }
